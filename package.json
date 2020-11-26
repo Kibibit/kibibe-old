@@ -1,0 +1,55 @@
+{
+  "name": "@kibibit/kibibe",
+  "version": "0.0.0-development",
+  "description": "a url shortner and tracker",
+  "main": "kibibe-server/dist/main.js",
+  "scripts": {
+    "commit": "cz",
+    "semantic-release": "semantic-release",
+    "semantic-release:init": "semantic-release-cli setup",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "thatkookooguy <neilkalman@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-angular": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@types/mongoose": "^5.10.1",
+    "@types/nconf": "^0.10.0",
+    "all-contributors-cli": "^6.19.0",
+    "commitizen": "^4.2.2",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^4.3.0",
+    "semantic-release": "^17.3.0",
+    "semantic-release-cli": "^5.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kibibit/kibibe.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kibibit/kibibe/issues"
+  },
+  "keywords": [
+    "nest",
+    "nestjs",
+    "url",
+    "url-shortner"
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
