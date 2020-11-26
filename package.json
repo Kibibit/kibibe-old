@@ -3,6 +3,9 @@
   "version": "0.0.0-development",
   "description": "a url shortner and tracker",
   "main": "dist/main.js",
+  "files": [
+    "/dist"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build:server": "cd kibibe-server && npm run build",
