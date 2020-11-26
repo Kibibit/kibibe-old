@@ -1,15 +1,10 @@
-import {
-  Body,
-  Controller,
-  HttpException,
-  HttpStatus,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
+import * as nconf from 'nconf';
 import * as shortid from 'shortid';
 import { isUri } from 'valid-url';
+
+import { CreateUrlDto } from '../schemas/url.schema';
 import { UrlService } from './url.service';
-import * as nconf from 'nconf';
-import { CreateUrlDto, Url } from 'src/schemas/url.schema';
 
 @Controller('url')
 export class UrlController {
@@ -43,10 +38,8 @@ export class UrlController {
         return url;
       }
 
-      const shortUrl = `${baseUrl}/${urlCode}`;
       url = await this.urlService.create({
         longUrl,
-        shortUrl,
         urlCode,
         clickCount: 0,
       });

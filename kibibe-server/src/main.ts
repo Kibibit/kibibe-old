@@ -1,16 +1,11 @@
 import { NestFactory } from '@nestjs/core';
-import * as nconf from 'nconf';
-import { join } from 'path';
 
 import { AppModule } from './app.module';
-
-nconf
-  .argv()
-  .env()
-  .file({ file: join(__dirname.replace(/kibibe.*$/, 'kibibe'), 'config.json') });
+import { ConfigService } from './config/config.service';
 
 async function bootstrap() {
+  const config = new ConfigService();
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  await app.listen(config.get('port'));
 }
 bootstrap();
