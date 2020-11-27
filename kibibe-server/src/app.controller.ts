@@ -1,7 +1,6 @@
-import { Controller, Get, Headers, HttpException, Param, Redirect, Req } from '@nestjs/common';
+import { Controller, Get, HttpException, Param, Redirect, Req } from '@nestjs/common';
 import { Request } from 'express';
 import * as nconf from 'nconf';
-import * as useragent from 'useragent';
 
 import { AppService, IKibibeInfo } from './app.service';
 import { UrlService } from './url/url.service';
@@ -15,21 +14,16 @@ export class AppController {
 
   @Get()
   getHello(): IKibibeInfo {
-    return this.appService.getHello();
+    return this.appService.getPapackageInfo();
   }
 
   @Get('/:urlCode')
   @Redirect('https://docs.nestjs.com')
   async redirect(
     @Param('urlCode') urlCode,
-    @Headers() clientInfo,
-    @Req() request: Request,
+    @Req() request: Request
   ) {
-    console.log(clientInfo);
-    const ip = request.header('x-forwarded-for') || request.connection.remoteAddress;
-
-    console.log({ ...useragent.parse(clientInfo['user-agent']), ip});
-
+    const visitInfo = await this.UrlService.getInfoFromClient(request);
     const url = await this.UrlService.findOne({ urlCode });
 
     const allowedClicks = nconf.get('allowedClick') || 50000;
@@ -52,10 +46,17 @@ export class AppController {
             400,
           );
         }
-        clickCount++;
 
-        url.clickCount = clickCount;
-        await this.UrlService.update(url);
+        clickCount++;
+        console.log(visitInfo);
+
+        const visits = visitInfo;
+        await this.UrlService.update(url.urlCode, {
+          clickCount,
+          $push: {
+            visits
+          }
+        });
         return { url: url.longUrl };
       } else {
         throw new HttpException(
@@ -67,6 +68,9 @@ export class AppController {
       console.error(
         'Error while retrieving long url for shorturlcode ' + urlCode,
       );
+      console.error(err);
+
+      console.log(err.stack);
 
       throw new HttpException('There is some internal error.', 500);
     }

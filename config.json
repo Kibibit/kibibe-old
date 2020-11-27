@@ -1,5 +1,0 @@
-{
-    "mongoURI": "https://mongo.kibibit.duckdns.org",
-    "baseURL": "http://localhost",
-    "allowedClick": 10
-}

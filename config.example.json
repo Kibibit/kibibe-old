@@ -1,0 +1,5 @@
+{
+    "mongoURI": "mongo://localhost:2712",
+    "baseURL": "http://localhost",
+    "allowedClick": 100
+}
